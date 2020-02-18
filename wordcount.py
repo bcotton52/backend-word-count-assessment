@@ -41,7 +41,35 @@ print_words() and print_top().
 
 import sys
 
-# +++your code here+++
+def helper(filename):
+    wordDict = {}
+    with open(filename, 'r') as file:
+        for line in file:
+            wordList = line.lower().split()
+            for word in wordList: 
+                if word in wordDict: 
+                    wordDict[word] += 1
+                else:
+                    wordDict[word] = 1
+    return wordDict
+
+def print_words(filename):
+    wordCount = helper(filename)
+    for item in wordCount:
+        print(item, wordCount[item])
+
+def wordCounter(tup):
+    count = tup[1]
+    return count
+
+def print_top(filename):
+    wordCount = helper(filename)
+    topWords = sorted(wordCount.items(), key = wordCounter, reverse = True)
+    for topWord in topWords[:20]:
+        word = topWord[0]
+        count = topWord[1]
+        print(word, count)
+
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
@@ -52,10 +80,9 @@ import sys
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 
-
 def main():
     if len(sys.argv) != 3:
-        print 'usage: python wordcount.py {--count | --topcount} file'
+        print ('usage: python wordcount.py {--count | --topcount} file')
         sys.exit(1)
 
     option = sys.argv[1]
@@ -65,9 +92,11 @@ def main():
     elif option == '--topcount':
         print_top(filename)
     else:
-        print 'unknown option: ' + option
+        print('unknown option: ' + option)
         sys.exit(1)
 
 
 if __name__ == '__main__':
     main()
+
+# This assessment took chunks of my heart and soul and too much time for the amount of points I will receive.
